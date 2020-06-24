@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_fav_locations_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import rs.raf.memorableplacesapp.R
 import rs.raf.memorableplacesapp.presentation.contract.LocationContract
+import rs.raf.memorableplacesapp.presentation.states.LocationsState
 import rs.raf.memorableplacesapp.presentation.view.activities.EditLocationActivity
 import rs.raf.memorableplacesapp.presentation.view.recycler.adapter.LocationAdapter
 import rs.raf.memorableplacesapp.presentation.view.recycler.diff.LocationDiffCallback
@@ -49,10 +51,21 @@ public class FavLocationsListFragment : Fragment(R.layout.fragment_fav_locations
     }
 
     private fun initObservers() {
-        locationViewModel.locations.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
+        locationViewModel.locationsState.observe(viewLifecycleOwner, Observer {
+            renderState(it)
         })
         locationViewModel.getAllLocations()
+    }
+
+    private fun renderState(state: LocationsState) {
+        when (state) {
+            is LocationsState.Success -> {
+                adapter.submitList(state.locations)
+            }
+            is LocationsState.Error -> {
+                Toast.makeText(this.requireActivity(), state.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initListeners() {

@@ -11,6 +11,7 @@ import io.reactivex.subjects.PublishSubject
 import rs.raf.memorableplacesapp.data.models.LocationUI
 import rs.raf.memorableplacesapp.data.repository.LocationRepository
 import rs.raf.memorableplacesapp.presentation.contract.LocationContract
+import rs.raf.memorableplacesapp.presentation.states.LocationsState
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -19,7 +20,7 @@ class LocationViewModel (
 
     private val subscriptions = CompositeDisposable()
 
-    override val locations: MutableLiveData<List<LocationUI>> = MutableLiveData()
+    override val locationsState: MutableLiveData<LocationsState> = MutableLiveData()
 
     private val publishSubject: PublishSubject<String> = PublishSubject.create()
 
@@ -39,10 +40,10 @@ class LocationViewModel (
             }
             .subscribe(
                 {
-                    locations.value = it
+                    locationsState.value = LocationsState.Success(it)
                 },
                 {
-                    Timber.e("Error happened while fetching data from db")
+                    locationsState.value = LocationsState.Error("Error happened while fetching data from db")
                     Timber.e(it)
                 }
             )
@@ -91,10 +92,10 @@ class LocationViewModel (
             .subscribe(
                 {
                     Timber.e("Retrieved list of locations")
-                    locations.value = it
+                    locationsState.value = LocationsState.Success(it)
                 },
                 {
-                    Timber.e("Error happened while fetching locations from data base")
+                    locationsState.value = LocationsState.Error("Error happened while fetching data from db")
                     Timber.e(it)
                 }
             )

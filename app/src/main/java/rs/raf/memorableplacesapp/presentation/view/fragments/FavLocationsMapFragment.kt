@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import rs.raf.memorableplacesapp.R
 import rs.raf.memorableplacesapp.data.models.LocationUI
 import rs.raf.memorableplacesapp.presentation.contract.LocationContract
+import rs.raf.memorableplacesapp.presentation.states.LocationsState
 import rs.raf.memorableplacesapp.presentation.viewmodel.LocationViewModel
 
 public class FavLocationsMapFragment : Fragment(R.layout.fragment_fav_locations_map),
@@ -87,14 +89,26 @@ public class FavLocationsMapFragment : Fragment(R.layout.fragment_fav_locations_
     private fun initObservers() {
         //sta ce mi uopste observe kada prikazujem samo kada se fragment kreira i pozovem samo locationViewModel.getAllLocations()
         //da se vratim kasnije na ovo
-        locationViewModel.locations.observe(viewLifecycleOwner, Observer {
-            renderMarkersOnMap(it)
+        locationViewModel.locationsState.observe(viewLifecycleOwner, Observer {
+            renderState(it)
         })
         locationViewModel.getAllLocations()
     }
 
+    private fun renderState(state: LocationsState) {
+        when (state) {
+            is LocationsState.Success -> {
+                renderMarkersOnMap(state.locations)
+            }
+            is LocationsState.Error -> {
+                Toast.makeText(this.requireActivity(), state.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun renderMarkersOnMap(locations: List<LocationUI>) {
+        mMap.clear()
         locations.forEach {
             val latLng = LatLng(it.latitude, it.longitude)
             val markerOptions = MarkerOptions()
