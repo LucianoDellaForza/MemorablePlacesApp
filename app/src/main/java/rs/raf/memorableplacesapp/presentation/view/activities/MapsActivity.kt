@@ -192,8 +192,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                         mMap?.isMyLocationEnabled = true
                     }
                 } else {
-                    Toast.makeText(this, "permission denied",
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show()
                 }
                 return
             }
@@ -224,8 +223,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
 
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         mCurrLocationMarker = mMap?.addMarker(markerOptions)    //stavljamo marker na mapu
-        mMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        mMap?.animateCamera(CameraUpdateFactory.zoomTo(11f))
+        mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15F))
+
         if (mGoogleApiClient != null) { //ako je vec kreiran client, osvezicemo naseg clijenta o.o
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
                 this)

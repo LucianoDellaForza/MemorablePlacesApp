@@ -1,6 +1,7 @@
 package rs.raf.memorableplacesapp.presentation.view.fragments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -20,6 +21,8 @@ import rs.raf.memorableplacesapp.presentation.viewmodel.LocationViewModel
 public class FavLocationsListFragment : Fragment(R.layout.fragment_fav_locations_list) {
 
     private val locationViewModel: LocationContract.ViewModel by viewModel<LocationViewModel>()
+
+    var fabToggle = true
 
     private lateinit var adapter: LocationAdapter
 
@@ -56,6 +59,24 @@ public class FavLocationsListFragment : Fragment(R.layout.fragment_fav_locations
         inputFilterEt.doAfterTextChanged {
             val filter = it.toString()
             locationViewModel.getLocationsWithFilter(filter)
+        }
+
+        fab.setOnClickListener {
+            fabToggle = !fabToggle
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(fabToggle) {
+                    fab.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24, context?.theme));
+                } else {
+                    fab.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24, context?.theme));
+                }
+            } else {
+                if(fabToggle) {
+                    fab.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24));
+                } else {
+                    fab.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24));
+                }
+
+            }
         }
     }
 
