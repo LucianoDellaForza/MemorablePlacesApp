@@ -10,7 +10,6 @@ interface LocationContract {
         fun insertLocation(location: LocationUI)
         fun updateLocation(location: LocationUI)
         fun getAllLocations()
-
-        //fun getLocationsWithFilter(filter: String)
+        fun getLocationsWithFilter(filter: String)
     }
 }

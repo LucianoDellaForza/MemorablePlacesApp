@@ -43,6 +43,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
 
     private lateinit var mMap: GoogleMap    //mapa, koristicemo ga npr u onLocationChange metodi da bismo na mapi promenili marker na updatovanu lokaciju
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -106,6 +108,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             finish()
         }
 
+
+
         saveBtn.setOnClickListener {
             val title = titleEt.text.toString()
             val note = noteEt.text.toString()
@@ -150,6 +154,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         // Add a marker in Belgrade and move the camera
+
         val belgrade = LatLng(44.7866, 20.4489)
         mMap?.addMarker(MarkerOptions().position(belgrade).title("Marker in Belgrade"))
         mMap?.moveCamera(CameraUpdateFactory.newLatLng(belgrade))

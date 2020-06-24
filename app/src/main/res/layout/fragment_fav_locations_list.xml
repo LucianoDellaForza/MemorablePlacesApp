@@ -4,14 +4,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/favLocationsListFragmentTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FavLocationsListFragment"
-        app:layout_constraintTop_toTopOf="parent"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRvLocations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/inputFilterEt"
+        android:paddingTop="20dp"
+        android:clipToPadding="false"/>
+
+    <EditText
+        android:id="@+id/inputFilterEt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Search by title or note"
+        app:layout_constraintTop_toBottomOf="@id/listRvLocations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

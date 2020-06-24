@@ -93,6 +93,7 @@ public class FavLocationsMapFragment : Fragment(R.layout.fragment_fav_locations_
         locationViewModel.getAllLocations()
     }
 
+
     private fun renderMarkersOnMap(locations: List<LocationUI>) {
         locations.forEach {
             val latLng = LatLng(it.latitude, it.longitude)

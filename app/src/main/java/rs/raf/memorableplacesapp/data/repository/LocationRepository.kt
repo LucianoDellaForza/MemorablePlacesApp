@@ -16,6 +16,6 @@ interface LocationRepository {
     fun getAll(): Observable<List<LocationUI>>
 
     //get all locations with filter
-//    fun getAllWithFilter(filter: String): Observable<List<NoteUI>>
+    fun getAllWithFilter(filter: String): Observable<List<LocationUI>>
 
 }

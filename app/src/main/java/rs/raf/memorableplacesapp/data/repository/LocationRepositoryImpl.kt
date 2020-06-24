@@ -30,4 +30,16 @@ class LocationRepositoryImpl (
                 }
             }
     }
+
+    override fun getAllWithFilter(filter: String): Observable<List<LocationUI>> {
+        return dataSource
+            .getByFilter(filter)
+            .map {
+                it.map {
+                    LocationUI(it.id, it.longitude, it.latitude, it.title, it.note)
+                }
+            }
+    }
+
+
 }

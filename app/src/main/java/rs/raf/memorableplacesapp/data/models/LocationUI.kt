@@ -1,8 +1,10 @@
 package rs.raf.memorableplacesapp.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-//@Parselize
+@Parcelize
 data class LocationUI (
     val id: Long,
     var longitude: Double,
@@ -10,4 +12,4 @@ data class LocationUI (
     var title: String,
     var note: String
 //    var date: Date
-) //: Parselable    -- ako se secam, da moze da se posalje drugom activitiju preko Intenta
+) : Parcelable //    -- ako se secam, da moze da se posalje drugom activitiju preko Intenta

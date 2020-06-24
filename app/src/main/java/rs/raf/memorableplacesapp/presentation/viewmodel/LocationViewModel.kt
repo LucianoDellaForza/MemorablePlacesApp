@@ -21,34 +21,33 @@ class LocationViewModel (
 
     override val locations: MutableLiveData<List<LocationUI>> = MutableLiveData()
 
-    //za filter
-//    private val publishSubject: PublishSubject<String> = PublishSubject.create()
-//
-//    init {
-//        val contactsDisposable = publishSubject
-//            .debounce(200, TimeUnit.MILLISECONDS)
-//            .distinctUntilChanged()
-//            .switchMap {
-//                noteRepository
-//                    .getAllWithFilter(it)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .doOnError {
-//                        Timber.e("Error in publish subject")
-//                        Timber.e(it)
-//                    }
-//            }
-//            .subscribe(
-//                {
-//                    notes.value = it
-//                },
-//                {
-//                    Timber.e("Error happened while fetching data from db")
-//                    Timber.e(it)
-//                }
-//            )
-//        subscriptions.add(contactsDisposable)
-//    }
+    private val publishSubject: PublishSubject<String> = PublishSubject.create()
+
+    init {
+        val locationsDisposable = publishSubject
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .switchMap {
+                locationRepository
+                    .getAllWithFilter(it)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnError {
+                        Timber.e("Error in publish subject")
+                        Timber.e(it)
+                    }
+            }
+            .subscribe(
+                {
+                    locations.value = it
+                },
+                {
+                    Timber.e("Error happened while fetching data from db")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(locationsDisposable)
+    }
 
     override fun insertLocation(location: LocationUI) {
         val subscription = locationRepository
@@ -100,5 +99,14 @@ class LocationViewModel (
                 }
             )
         subscriptions.add(subscription)
+    }
+
+    override fun getLocationsWithFilter(filter: String) {
+        publishSubject.onNext(filter)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        subscriptions.dispose()
     }
 }

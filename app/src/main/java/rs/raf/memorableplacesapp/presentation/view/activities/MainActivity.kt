@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         initListeners()
     }
 
+
     private fun initListeners() {
         addLocationBtn.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)

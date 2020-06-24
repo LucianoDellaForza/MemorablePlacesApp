@@ -20,7 +20,7 @@ abstract class LocationDao {
     @Query("SELECT * FROM locations")
     abstract fun getAll(): Observable<List<LocationEntity>>
 
-    //get with date filter
-//    @Query("SELECT * FROM notes WHERE title LIKE :filter || '%' OR content LIKE :filter || '%'")
-//    abstract fun getByFilter(filter: String): Observable<List<NoteEntity>>
+    //get with filter
+    @Query("SELECT * FROM locations WHERE title LIKE :filter || '%' OR note LIKE :filter || '%'")
+    abstract fun getByFilter(filter: String): Observable<List<LocationEntity>>
 }
